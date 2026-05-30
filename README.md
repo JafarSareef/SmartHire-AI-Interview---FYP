@@ -26,7 +26,7 @@ Smart
 - User‑friendly interface with responsive design  
 
 ## 🎥 Demo (Video with Voice‑Over)
-👉 [Video Demo](demo/SmartHire_Demo.mp4)
+👉 [Video Demo](https://github.com/JafarSareef/SmartHire-AI-Interview---FYP/blob/main/Demo%20Video.mp4)
 
 ## 📂 Setup Instructions
 ```bash
