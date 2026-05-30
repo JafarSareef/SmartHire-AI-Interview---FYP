@@ -1,0 +1,12 @@
+{
+    "Jafar Sareef": {
+        "password": "scrypt:32768:8:1$xt5TnSGuQByI5ltf$efa5141910de44cea9f526ce8ccf435698a4b297c1df074e2e021536f97d706d5b3ea83392844319449969dd51f810a2d521168567b2688f4c7b011923b59918",
+        "email": "a.jafarsareef10@gmail.com",
+        "face_registered": true
+    },
+    "Jafar": {
+        "password": "scrypt:32768:8:1$5PZ0I1psq7TeRssM$052a8a1069405dff1b168e1ab54f4354a9ccb3c5ad167d1d7687c814ed8fe1de01b956df57e4afb8a9277d034f1e60bb2f45432d281f9ffc704c0718fe63b9d3",
+        "email": "jafarsareef10@gmail.com",
+        "face_registered": true
+    }
+}

@@ -1,0 +1,9 @@
+Flask
+requests
+PyPDF2
+werkzeug
+opencv-python
+opencv-contrib-python
+numpy
+scikit-learn
+reportlab

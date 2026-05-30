@@ -1,0 +1,841 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - AI Job Interview Simulator</title>
+    
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    
+    <!-- Material Icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            overflow-x: hidden;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: 
+                radial-gradient(circle at 20% 50%, rgba(120, 119, 198, 0.3), transparent 50%),
+                radial-gradient(circle at 80% 80%, rgba(138, 43, 226, 0.3), transparent 50%),
+                radial-gradient(circle at 40% 20%, rgba(72, 61, 139, 0.3), transparent 50%);
+            pointer-events: none;
+        }
+        
+        .glass-card {
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 24px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 600px;
+            width: 100%;
+        }
+        
+        .gradient-btn {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            transition: all 0.3s ease;
+            border: none;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .gradient-btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.3), transparent);
+            transition: left 0.5s;
+        }
+
+        .gradient-btn:hover::before {
+            left: 100%;
+        }
+        
+        .gradient-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 15px 30px rgba(102, 126, 234, 0.4);
+        }
+
+        .gradient-btn:active {
+            transform: translateY(-1px);
+        }
+        
+        .input-field {
+            transition: all 0.3s ease;
+            border-radius: 12px;
+            border: 2px solid #e0e0e0;
+            background: #fafafa;
+        }
+        
+        .input-field:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+            background: white;
+        }
+
+        .input-group .btn {
+            border-radius: 0 12px 12px 0;
+            border: 2px solid #e0e0e0;
+            border-left: none;
+            background: #fafafa;
+            transition: all 0.3s ease;
+        }
+
+        .input-group .btn:hover {
+            background: #667eea;
+            color: white;
+            border-color: #667eea;
+        }
+
+        .input-group .input-field {
+            border-radius: 12px 0 0 12px;
+        }
+        
+        #particles-js {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            top: 0;
+            left: 0;
+            z-index: 0;
+        }
+
+        .container {
+            position: relative;
+            z-index: 1;
+        }
+        
+        .ai-avatar {
+            width: 130px;
+            height: 130px;
+            margin: 0 auto 25px;
+            position: relative;
+            perspective: 1000px;
+        }
+        
+        .ai-avatar-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+        }
+        
+        .ai-avatar-front {
+            width: 100%;
+            height: 100%;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            font-size: 50px;
+            box-shadow: 0 10px 40px rgba(102, 126, 234, 0.4);
+        }
+        
+        .progress-bar-container {
+            height: 6px;
+            background: #e0e0e0;
+            border-radius: 10px;
+            margin-top: 8px;
+            overflow: hidden;
+        }
+        
+        .progress {
+            height: 100%;
+            border-radius: 10px;
+            background: linear-gradient(90deg, #667eea, #764ba2);
+            transition: width 0.3s ease, background 0.3s ease;
+        }
+        
+        .password-strength {
+            font-size: 0.75rem;
+            margin-top: 6px;
+            font-weight: 500;
+            transition: color 0.3s ease;
+        }
+
+        .title-gradient {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            font-weight: 700;
+            font-size: 2rem;
+        }
+
+        .form-label {
+            font-weight: 500;
+            color: #4a5568;
+            margin-bottom: 0.5rem;
+        }
+
+        .link-purple {
+            color: #764ba2;
+            text-decoration: none;
+            font-weight: 600;
+            transition: all 0.3s ease;
+            position: relative;
+        }
+
+        .link-purple::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -2px;
+            left: 0;
+            background: #764ba2;
+            transition: width 0.3s ease;
+        }
+
+        .link-purple:hover::after {
+            width: 100%;
+        }
+
+        .link-purple:hover {
+            color: #667eea;
+        }
+
+        .alert {
+            border-radius: 12px;
+            border: none;
+            animation: slideDown 0.3s ease;
+        }
+
+        @keyframes slideDown {
+            from {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .social-btn {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            border: 2px solid #e0e0e0;
+            background: white;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .social-btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .social-btn.google:hover {
+            border-color: #ea4335;
+            color: #ea4335;
+        }
+
+        .social-btn.linkedin:hover {
+            border-color: #0077b5;
+            color: #0077b5;
+        }
+
+        .social-btn.github:hover {
+            border-color: #333;
+            color: #333;
+        }
+
+        .form-check-input:checked {
+            background-color: #667eea;
+            border-color: #667eea;
+        }
+
+        .form-check-input:focus {
+            border-color: #667eea;
+            box-shadow: 0 0 0 0.25rem rgba(102, 126, 234, 0.15);
+        }
+
+        /* Loading animation for button */
+        .gradient-btn.loading {
+            pointer-events: none;
+            opacity: 0.7;
+        }
+
+        .gradient-btn.loading::after {
+            content: '';
+            position: absolute;
+            width: 20px;
+            height: 20px;
+            top: 50%;
+            left: 50%;
+            margin-left: -10px;
+            margin-top: -10px;
+            border: 2px solid rgba(255, 255, 255, 0.3);
+            border-radius: 50%;
+            border-top-color: white;
+            animation: spin 0.8s linear infinite;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+
+        #cameraContainer {
+            margin: 10px auto;
+        }
+
+        .btn-check:checked + .btn-outline-primary {
+            background-color: #667eea;
+            border-color: #667eea;
+            color: white;
+        }
+    </style>
+</head>
+<body class="relative">
+    <!-- Particles.js Background -->
+    <div id="particles-js"></div>
+    
+    <div class="glass-card p-5 position-relative">
+            <div class="ai-avatar">
+                <div class="ai-avatar-inner">
+                    <div class="ai-avatar-front">
+                        <i class="fas fa-user-plus"></i>
+                    </div>
+                </div>
+            </div>
+            
+            <h2 class="text-center mb-3 title-gradient">
+                Create Your Account
+            </h2>
+            
+            <p class="text-center mb-4" style="color: #718096; font-size: 0.95rem;">
+                Join our AI-powered interview simulator to boost your career
+            </p>
+            
+            {% with messages = get_flashed_messages(with_categories=true) %}
+                {% if messages %}
+                    {% for category, message in messages %}
+                        <div class="alert alert-{{ 'success' if category == 'success' else 'danger' }} alert-dismissible fade show" role="alert">
+                            {{ message }}
+                            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                        </div>
+                    {% endfor %}
+                {% endif %}
+            {% endwith %}
+            
+            <form method="POST" action="/register" id="registerForm">
+                <div class="row">
+                    <div class="col-md-6 mb-3">
+                        <label for="firstName" class="form-label">
+                            <i class="fas fa-user me-2"></i>First Name
+                        </label>
+                        <input type="text" 
+                               class="form-control input-field py-3 px-4" 
+                               id="firstName" 
+                               name="firstName" 
+                               required
+                               placeholder="John"
+                               autocomplete="given-name">
+                    </div>
+                    
+                    <div class="col-md-6 mb-3">
+                        <label for="lastName" class="form-label">
+                            <i class="fas fa-user me-2"></i>Last Name
+                        </label>
+                        <input type="text" 
+                               class="form-control input-field py-3 px-4" 
+                               id="lastName" 
+                               name="lastName" 
+                               required
+                               placeholder="Doe"
+                               autocomplete="family-name">
+                    </div>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="email" class="form-label">
+                        <i class="fas fa-envelope me-2"></i>Email Address
+                    </label>
+                    <input type="email" 
+                           class="form-control input-field py-3 px-4" 
+                           id="email" 
+                           name="email" 
+                           required
+                           placeholder="your@email.com"
+                           autocomplete="email">
+                </div>
+
+                <!-- Face Registration Section -->
+                <div class="mb-3">
+                    <label class="form-label">
+                        <i class="fas fa-camera me-2"></i>Face Registration <span class="text-danger">*</span>
+                    </label>
+                    <div class="text-center">
+                        <div id="cameraContainer" style="position: relative; display: inline-block;">
+                            <video id="video" width="320" height="240" autoplay style="border-radius: 12px; display: none;"></video>
+                            <canvas id="canvas" width="320" height="240" style="border-radius: 12px; display: none;"></canvas>
+                            <div id="facePreview" style="display: none;">
+                                <img id="capturedFace" style="max-width: 320px; border-radius: 12px; border: 3px solid #667eea;">
+                                <div class="mt-2">
+                                    <button type="button" class="btn btn-sm btn-outline-danger" onclick="retakeFace()">
+                                        <i class="fas fa-redo me-1"></i>Retake
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="mt-3">
+                            <button type="button" class="btn btn-outline-primary" id="startCameraBtn" onclick="startCamera()">
+                                <i class="fas fa-camera me-2"></i>Start Camera
+                            </button>
+                            <button type="button" class="btn btn-primary" id="captureFaceBtn" onclick="captureFace()" style="display: none;">
+                                <i class="fas fa-camera me-2"></i>Capture Face
+                            </button>
+                        </div>
+                        <small class="text-danger d-block mt-2">
+                            <i class="fas fa-exclamation-circle me-1"></i>Face registration is required for account creation
+                        </small>
+                    </div>
+                    <input type="hidden" id="faceData" name="faceData" required>
+                </div>
+                
+                <div class="mb-3">
+                    <label for="username" class="form-label">
+                        <i class="fas fa-at me-2"></i>Username
+                    </label>
+                    <input type="text" 
+                           class="form-control input-field py-3 px-4" 
+                           id="username" 
+                           name="username" 
+                           required
+                           placeholder="username"
+                           autocomplete="username">
+                </div>
+                
+                <div class="mb-3">
+                    <label for="password" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Password
+                    </label>
+                    <div class="input-group">
+                        <input type="password" 
+                               class="form-control input-field py-3 px-4" 
+                               id="password" 
+                               name="password" 
+                               required
+                               placeholder="Create password"
+                               autocomplete="new-password"
+                               oninput="checkPasswordStrength(this.value)">
+                        <button class="btn btn-outline-secondary px-3" type="button" id="togglePassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="progress-bar-container">
+                        <div class="progress" id="passwordStrengthBar" style="width: 0%;"></div>
+                    </div>
+                    <div class="password-strength text-end" id="passwordStrengthText"></div>
+                </div>
+                
+                <div class="mb-4">
+                    <label for="confirmPassword" class="form-label">
+                        <i class="fas fa-lock me-2"></i>Confirm Password
+                    </label>
+                    <div class="input-group">
+                        <input type="password" 
+                               class="form-control input-field py-3 px-4" 
+                               id="confirmPassword" 
+                               name="confirmPassword" 
+                               required
+                               placeholder="Confirm password"
+                               autocomplete="new-password">
+                        <button class="btn btn-outline-secondary px-3" type="button" id="toggleConfirmPassword">
+                            <i class="fas fa-eye"></i>
+                        </button>
+                    </div>
+                    <div class="small mt-2" id="passwordMatchMessage" style="font-weight: 500;"></div>
+                </div>
+                
+                <div class="form-check mb-4">
+                    <input class="form-check-input" type="checkbox" id="termsCheck" required>
+                    <label class="form-check-label" style="color: #718096; font-size: 0.9rem;" for="termsCheck">
+                        I agree to the <a href="#" class="link-purple">Terms of Service</a> and <a href="#" class="link-purple">Privacy Policy</a>
+                    </label>
+                </div>
+                
+                <button type="submit" class="btn gradient-btn text-white w-100 py-3 mb-3 rounded-pill fw-bold">
+                    <i class="fas fa-user-plus me-2"></i>Create Account
+                </button>
+                
+                <div class="text-center mt-4">
+                    <p style="color: #718096;">
+                        Already have an account? 
+                        <a href="{{ url_for('login') }}" class="link-purple">
+                            Sign in
+                        </a>
+                    </p>
+                </div>
+                
+                <div class="text-center mt-4 pb-2">
+                    <p style="color: #718096; font-size: 0.9rem; margin-bottom: 1rem;">Or register with</p>
+                    <div class="d-flex justify-content-center gap-3">
+                        <button type="button" class="social-btn google">
+                            <i class="fab fa-google"></i>
+                        </button>
+                        <button type="button" class="social-btn linkedin">
+                            <i class="fab fa-linkedin-in"></i>
+                        </button>
+                        <button type="button" class="social-btn github">
+                            <i class="fab fa-github"></i>
+                        </button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    
+    <!-- Bootstrap JS Bundle with Popper -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    
+    <!-- Particles.js Configuration -->
+    <script src="https://cdn.jsdelivr.net/particles.js/2.0.0/particles.min.js"></script>
+    
+    <script>
+        // Toggle password visibility
+        document.getElementById('togglePassword').addEventListener('click', function() {
+            const passwordInput = document.getElementById('password');
+            const icon = this.querySelector('i');
+            if (passwordInput.type === 'password') {
+                passwordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                passwordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Toggle confirm password visibility
+        document.getElementById('toggleConfirmPassword').addEventListener('click', function() {
+            const confirmPasswordInput = document.getElementById('confirmPassword');
+            const icon = this.querySelector('i');
+            if (confirmPasswordInput.type === 'password') {
+                confirmPasswordInput.type = 'text';
+                icon.classList.remove('fa-eye');
+                icon.classList.add('fa-eye-slash');
+            } else {
+                confirmPasswordInput.type = 'password';
+                icon.classList.remove('fa-eye-slash');
+                icon.classList.add('fa-eye');
+            }
+        });
+        
+        // Password strength checker
+        function checkPasswordStrength(password) {
+            const strengthBar = document.getElementById('passwordStrengthBar');
+            const strengthText = document.getElementById('passwordStrengthText');
+            
+            // Reset
+            strengthBar.style.width = '0%';
+            
+            if (password.length === 0) {
+                strengthText.textContent = '';
+                return;
+            }
+            
+            // Calculate strength
+            let strength = 0;
+            
+            // Length
+            if (password.length > 7) strength += 1;
+            if (password.length > 10) strength += 1;
+            
+            // Contains numbers
+            if (password.match(/\d+/)) strength += 1;
+            
+            // Contains special chars
+            if (password.match(/[!,@,#,$,%,^,&,*,?,_,~]/)) strength += 1;
+            
+            // Contains both lower and upper case
+            if (password.match(/[a-z]/) && password.match(/[A-Z]/)) strength += 1;
+            
+            // Update UI
+            let width = 0;
+            let text = '';
+            let color = '';
+            
+            switch(strength) {
+                case 0:
+                case 1:
+                    width = 25;
+                    text = 'Weak';
+                    color = '#ff5252';
+                    break;
+                case 2:
+                    width = 50;
+                    text = 'Fair';
+                    color = '#ffb142';
+                    break;
+                case 3:
+                    width = 75;
+                    text = 'Good';
+                    color = '#33d9b2';
+                    break;
+                case 4:
+                case 5:
+                    width = 100;
+                    text = 'Strong';
+                    color = '#2ecc71';
+                    break;
+            }
+            
+            strengthBar.style.width = width + '%';
+            strengthBar.style.background = color;
+            strengthText.textContent = 'Password strength: ' + text;
+            strengthText.style.color = color;
+            
+            // Check password match
+            checkPasswordMatch();
+        }
+        
+        // Check if passwords match
+        function checkPasswordMatch() {
+            const password = document.getElementById('password').value;
+            const confirmPassword = document.getElementById('confirmPassword').value;
+            const message = document.getElementById('passwordMatchMessage');
+            
+            if (confirmPassword.length === 0) {
+                message.textContent = '';
+                return;
+            }
+            
+            if (password === confirmPassword) {
+                message.textContent = '✓ Passwords match!';
+                message.classList.remove('text-danger');
+                message.classList.add('text-success');
+            } else {
+                message.textContent = '✗ Passwords do not match';
+                message.classList.remove('text-success');
+                message.classList.add('text-danger');
+            }
+        }
+
+        // Form submission animation
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const submitBtn = this.querySelector('button[type="submit"]');
+            submitBtn.classList.add('loading');
+            submitBtn.innerHTML = '<span style="opacity: 0;">Creating account...</span>';
+        });
+        
+        // Initialize particles.js
+        particlesJS('particles-js', {
+            particles: {
+                number: { value: 100, density: { enable: true, value_area: 800 } },
+                color: { value: "#ffffff" },
+                shape: { type: "circle" },
+                opacity: { value: 0.6, random: true, anim: { enable: true, speed: 1, opacity_min: 0.1, sync: false } },
+                size: { value: 4, random: true, anim: { enable: true, speed: 2, size_min: 0.1, sync: false } },
+                line_linked: { enable: true, distance: 150, color: "#ffffff", opacity: 0.4, width: 1 },
+                move: { 
+                    enable: true, 
+                    speed: 2, 
+                    direction: "none", 
+                    random: true, 
+                    straight: false, 
+                    out_mode: "out",
+                    bounce: false 
+                }
+            },
+            interactivity: {
+                detect_on: "canvas",
+                events: {
+                    onhover: { enable: true, mode: "grab" },
+                    onclick: { enable: true, mode: "push" },
+                    resize: true
+                },
+                modes: {
+                    grab: { distance: 140, line_linked: { opacity: 0.8 } },
+                    push: { particles_nb: 4 }
+                }
+            },
+            retina_detect: true
+        });
+        
+        // Check password match on confirm password input
+        document.getElementById('confirmPassword').addEventListener('input', checkPasswordMatch);
+
+        // Face capture functionality
+        let stream = null;
+        let video = document.getElementById('video');
+        let canvas = document.getElementById('canvas');
+        let capturedFace = document.getElementById('capturedFace');
+        let facePreview = document.getElementById('facePreview');
+        let capturedFrames = [];  // Store multiple frames
+        let captureCount = 0;
+        const REQUIRED_FRAMES = 5;  // Capture 5 frames for better accuracy
+
+        // Form validation to check if face is captured
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            const faceData = document.getElementById('faceData').value;
+            if (!faceData) {
+                e.preventDefault();
+                alert('Please capture your face before submitting the form. Face registration is mandatory.');
+                return false;
+            }
+        });
+
+        async function startCamera() {
+            try {
+                stream = await navigator.mediaDevices.getUserMedia({ 
+                    video: { 
+                        width: 320, 
+                        height: 240,
+                        facingMode: 'user'
+                    } 
+                });
+                video.srcObject = stream;
+                
+                // Wait for video to be ready
+                video.onloadedmetadata = function() {
+                    video.play();
+                };
+                
+                video.style.display = 'block';
+                canvas.style.display = 'none';
+                facePreview.style.display = 'none';
+                document.getElementById('startCameraBtn').style.display = 'none';
+                document.getElementById('captureFaceBtn').style.display = 'inline-block';
+            } catch (err) {
+                console.error('Camera error:', err);
+                alert('Error accessing camera: ' + err.message + '\n\nPlease ensure:\n1. Camera is connected\n2. Browser has camera permission\n3. No other app is using the camera');
+            }
+        }
+
+        function captureFace() {
+            if (!video.srcObject) {
+                alert('Camera is not active. Please start the camera first.');
+                return;
+            }
+            
+            // Disable button during capture
+            const captureBtn = document.getElementById('captureFaceBtn');
+            captureBtn.disabled = true;
+            captureBtn.innerHTML = '<i class="fas fa-camera me-2"></i>Capturing...';
+            
+            // Capture multiple frames with delay
+            capturedFrames = [];
+            captureCount = 0;
+            
+            const captureInterval = setInterval(() => {
+                const context = canvas.getContext('2d');
+                
+                // Set canvas size to match video
+                canvas.width = video.videoWidth || 320;
+                canvas.height = video.videoHeight || 240;
+                
+                // Draw the current video frame to canvas
+                context.drawImage(video, 0, 0, canvas.width, canvas.height);
+                
+                // Convert canvas to base64
+                const imageData = canvas.toDataURL('image/jpeg', 0.9);
+                capturedFrames.push(imageData);
+                captureCount++;
+                
+                // Update button text with progress
+                captureBtn.innerHTML = `<i class="fas fa-camera me-2"></i>Captured ${captureCount}/${REQUIRED_FRAMES}`;
+                
+                // Visual feedback - flash effect
+                video.style.opacity = '0.5';
+                setTimeout(() => { video.style.opacity = '1'; }, 100);
+                
+                if (captureCount >= REQUIRED_FRAMES) {
+                    clearInterval(captureInterval);
+                    finalizeFaceCapture();
+                }
+            }, 400);  // Capture every 400ms (total ~2 seconds for 5 frames)
+        }
+        
+        function finalizeFaceCapture() {
+            console.log(`[Face Registration] Captured ${capturedFrames.length} frames for verification`);
+            
+            // Store all frames as JSON array
+            document.getElementById('faceData').value = JSON.stringify(capturedFrames);
+            
+            // Show preview of the last frame
+            capturedFace.src = capturedFrames[capturedFrames.length - 1];
+            video.style.display = 'none';
+            facePreview.style.display = 'block';
+            document.getElementById('captureFaceBtn').style.display = 'none';
+            
+            // Stop camera
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+            
+            // Show success message
+            alert(`✓ Face captured successfully!\n\n${REQUIRED_FRAMES} frames captured for enhanced verification accuracy.`);
+        }
+
+        function retakeFace() {
+            document.getElementById('faceData').value = '';
+            capturedFrames = [];
+            captureCount = 0;
+            facePreview.style.display = 'none';
+            video.style.display = 'none';
+            document.getElementById('startCameraBtn').style.display = 'inline-block';
+            
+            const captureBtn = document.getElementById('captureFaceBtn');
+            captureBtn.style.display = 'none';
+            captureBtn.disabled = false;
+            captureBtn.innerHTML = '<i class="fas fa-camera me-2"></i>Capture Face';
+            
+            // Stop camera if running
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+                stream = null;
+            }
+        }
+
+        // Cleanup on page unload
+        window.addEventListener('beforeunload', function() {
+            if (stream) {
+                stream.getTracks().forEach(track => track.stop());
+            }
+        });
+    </script>
+</body>
+</html>

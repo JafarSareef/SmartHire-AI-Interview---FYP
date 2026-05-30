@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AI Job Interview Simulator - Welcome</title>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary-color: #3F51B5;
+            --primary-dark: #303F9F;
+            --primary-light: #E8EAF6;
+            --secondary-color: #FF9800;
+            --background-color: #F5F7FA;
+            --text-primary: #1A1A1A;
+            --text-secondary: #666666;
+            --shadow-sm: 0 4px 15px rgba(0, 0, 0, 0.1);
+            --shadow-md: 0 6px 20px rgba(63, 81, 181, 0.15);
+            --border-radius-md: 16px;
+            --transition: all 0.3s ease;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: linear-gradient(135deg, var(--background-color), var(--primary-light));
+            color: var(--text-primary);
+            line-height: 1.6;
+            min-height: 100vh;
+            position: relative;
+            overflow-x: hidden;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: url('data:image/svg+xml,%3Csvg width="40" height="40" viewBox="0 0 40 40" xmlns="http://www.w3.org/2000/svg"%3E%3Cg fill="%233F51B5" fill-opacity="0.05" fill-rule="evenodd"%3E%3Cpath d="M0 40L40 0H20L0 20zM40 40V20L20 40z"/%3E%3C/g%3E%3C/svg%3E');
+            z-index: -1;
+        }
+
+        .landing-container {
+            max-width: 1200px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 60px;
+        }
+
+        .header {
+            position: sticky;
+            top: 20px;
+            background: rgba(255, 255, 255, 0.95);
+            backdrop-filter: blur(10px);
+            border-radius: var(--border-radius-md);
+            padding: 15px 30px;
+            box-shadow: var(--shadow-sm);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            z-index: 10;
+            max-width: 1100px;
+            margin: 0 auto 40px;
+        }
+
+        .header .logo-small {
+            width: 40px;
+            height: 40px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .header .logo-small i {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .header h2 {
+            font-size: 24px;
+            font-weight: 600;
+            color: var(--primary-dark);
+        }
+
+        .hero-section {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(120deg, rgba(63, 81, 181, 0.1), rgba(255, 152, 0, 0.1));
+            border-radius: var(--border-radius-md);
+            position: relative;
+            animation: fadeInUp 1s ease-out;
+        }
+
+        .hero-section .logo {
+            width: 120px;
+            height: 120px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 25px;
+            box-shadow: var(--shadow-sm);
+            transition: var(--transition);
+        }
+
+        .hero-section .logo:hover {
+            transform: scale(1.05) rotate(5deg);
+        }
+
+        .hero-section .logo i {
+            color: #fff;
+            font-size: 56px;
+        }
+
+        .hero-section h1 {
+            font-size: 48px;
+            font-weight: 700;
+            margin-bottom: 20px;
+            color: var(--primary-dark);
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: slideInLeft 1s ease-out;
+        }
+
+        .hero-section p {
+            font-size: 20px;
+            color: var(--text-secondary);
+            max-width: 700px;
+            margin: 0 auto 40px;
+            animation: fadeInUp 1s ease-out 0.3s backwards;
+        }
+
+        .start-btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 12px;
+            background: linear-gradient(90deg, var(--primary-color), var(--primary-dark));
+            color: #fff;
+            padding: 16px 40px;
+            border: none;
+            border-radius: 50px;
+            font-size: 18px;
+            font-weight: 600;
+            text-decoration: none;
+            transition: var(--transition);
+            box-shadow: var(--shadow-sm);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .start-btn::after {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            transition: width 0.6s ease, height 0.6s ease;
+        }
+
+        .start-btn:hover::after {
+            width: 300px;
+            height: 300px;
+        }
+
+        .start-btn:hover {
+            background: linear-gradient(90deg, var(--primary-dark), var(--primary-color));
+            transform: translateY(-3px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .start-btn i {
+            font-size: 20px;
+        }
+
+        .features-section {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 30px;
+            width: 100%;
+            padding: 0 20px;
+        }
+
+        .feature-card {
+            background: #fff;
+            padding: 30px;
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            text-align: center;
+            transition: var(--transition);
+            position: relative;
+            overflow: hidden;
+            animation: fadeInUp 1s ease-out calc(0.2s * var(--i));
+        }
+
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 5px;
+            background: linear-gradient(90deg, var(--primary-color), var(--secondary-color));
+            transition: var(--transition);
+        }
+
+        .feature-card:hover {
+            transform: translateY(-8px);
+            box-shadow: var(--shadow-md);
+        }
+
+        .feature-card i {
+            font-size: 40px;
+            color: var(--primary-color);
+            margin-bottom: 20px;
+            transition: var(--transition);
+        }
+
+        .feature-card:hover i {
+            color: var(--secondary-color);
+            transform: scale(1.1);
+        }
+
+        .feature-card h3 {
+            font-size: 22px;
+            font-weight: 600;
+            margin-bottom: 12px;
+            color: var(--text-primary);
+        }
+
+        .feature-card p {
+            font-size: 15px;
+            color: var(--text-secondary);
+            margin: 0;
+        }
+
+        .testimonial-section {
+            text-align: center;
+            padding: 40px 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+        }
+
+        .testimonial-section h2 {
+            font-size: 32px;
+            font-weight: 600;
+            color: var(--primary-dark);
+            margin-bottom: 30px;
+        }
+
+        .testimonial-card {
+            max-width: 600px;
+            margin: 0 auto;
+            padding: 20px;
+            background: var(--primary-light);
+            border-radius: var(--border-radius-md);
+            box-shadow: var(--shadow-sm);
+            animation: fadeInUp 1s ease-out 0.5s backwards;
+        }
+
+        .testimonial-card p {
+            font-size: 16px;
+            color: var(--text-secondary);
+            margin-bottom: 15px;
+        }
+
+        .testimonial-card cite {
+            font-style: italic;
+            font-size: 14px;
+            color: var(--primary-color);
+        }
+
+        @keyframes fadeInUp {
+            from { opacity: 0; transform: translateY(20px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes slideInLeft {
+            from { opacity: 0; transform: translateX(-20px); }
+            to { opacity: 1; transform: translateX(0); }
+        }
+
+        @media (max-width: 768px) {
+            .header { padding: 10px 20px; margin: 0 auto 20px; }
+            .header h2 { font-size: 20px; }
+            .hero-section { padding: 40px 15px; }
+            .hero-section .logo { width: 100px; height: 100px; }
+            .hero-section .logo i { font-size: 40px; }
+            .hero-section h1 { font-size: 32px; }
+            .hero-section p { font-size: 16px; }
+            .start-btn { padding: 12px 30px; font-size: 16px; }
+            .features-section { grid-template-columns: 1fr; padding: 0 10px; }
+            .feature-card { padding: 20px; }
+            .testimonial-section h2 { font-size: 24px; }
+        }
+
+        @media (prefers-color-scheme: dark) {
+            body { background: linear-gradient(135deg, #1A1A1A, #2A3D2A); }
+            .header { background: rgba(42, 42, 42, 0.95); color: #E0E0E0; }
+            .header h2 { color: #E0E0E0; }
+            .hero-section { background: linear-gradient(120deg, rgba(63, 81, 181, 0.15), rgba(255, 152, 0, 0.15)); }
+            .feature-card, .testimonial-section { background: #2A2A2A; color: #E0E0E0; }
+            .feature-card h3, .testimonial-section h2 { color: #E0E0E0; }
+            .feature-card p, .testimonial-card p { color: #AEAEAE; }
+            .testimonial-card { background: #3A3A3A; }
+        }
+    </style>
+</head>
+<body>
+    <div class="landing-container">
+        <header class="header">
+            <div class="logo-small">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h2>AI Job Interview Simulator</h2>
+        </header>
+
+        <div class="hero-section">
+            <div class="logo">
+                <i class="fas fa-user-tie"></i>
+            </div>
+            <h1>AI Job Interview Simulator</h1>
+            <p>
+                Practice your interview skills with AI! Upload your resume, let us analyze your skills, and experience a real-time mock interview with feedback.
+            </p>
+            <a href="/interview" class="start-btn">
+                Get Started <i class="fas fa-arrow-right"></i>
+            </a>
+        </div>
+
+        <div class="features-section">
+            <div class="feature-card" style="--i: 1;">
+                <i class="fas fa-file-alt"></i>
+                <h3>Resume Analysis</h3>
+                <p>Upload your resume to extract key skills instantly.</p>
+            </div>
+            <div class="feature-card" style="--i: 2;">
+                <i class="fas fa-microphone"></i>
+                <h3>Voice Interaction</h3>
+                <p>Answer questions using voice for a natural experience.</p>
+            </div>
+            <div class="feature-card" style="--i: 3;">
+                <i class="fas fa-comment-dots"></i>
+                <h3>Real-Time Feedback</h3>
+                <p>Get insights on strengths and areas to improve.</p>
+            </div>
+        </div>
+
+        <div class="testimonial-section">
+            <h2>What People Say</h2>
+            <div class="testimonial-card">
+                <p>"This simulator helped me prepare for my real interview—feedback was spot-on!"</p>
+                <cite>- Priya, Job Seeker</cite>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
